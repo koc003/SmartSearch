@@ -2,6 +2,15 @@ from pypdf import PdfReader
 from google import genai
 from config import GEMINI_API_KEY
 
+import faiss
+import pickle
+import numpy as np
+
+from config import (
+    FAISS_INDEX_PATH,
+    CHUNKS_PATH
+)
+
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 def extract_text_from_pdf(filepath):
@@ -61,7 +70,7 @@ def get_embeddings(chunks, batch_size=20):
     for i in range(0, len(chunks), batch_size):
 
         batch = chunks[i:i + batch_size]
-        
+
         response = client.models.embed_content(
             model="gemini-embedding-001",
             contents=batch
@@ -71,3 +80,28 @@ def get_embeddings(chunks, batch_size=20):
             embeddings.append(embedding.values)
 
     return embeddings
+
+def build_faiss_index(embeddings, chunks):
+
+    embeddings = np.array(
+        embeddings,
+        dtype=np.float32
+    )
+
+    dimension = embeddings.shape[1]
+
+    index = faiss.IndexFlatL2(dimension)
+
+    index.add(embeddings)
+
+    faiss.write_index(
+        index,
+        FAISS_INDEX_PATH
+    )
+
+    with open(CHUNKS_PATH, "wb") as file:
+        pickle.dump(
+            chunks,
+            file
+        )
+    return index

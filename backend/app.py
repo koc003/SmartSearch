@@ -8,7 +8,8 @@ from rag import (
     extract_text_from_pdf,
     clean_text,
     chunk_text,
-    get_embeddings
+    get_embeddings,
+    build_faiss_index
 )
 
 from config import (
@@ -99,6 +100,12 @@ def upload_file():
 # Generate embeddings
     try:
         embeddings = get_embeddings(chunks)
+
+        build_faiss_index(
+        embeddings,
+        chunks
+        )
+
     except Exception as e:
         return jsonify({
             "error": str(e)
@@ -109,7 +116,8 @@ def upload_file():
     "filename": filename,
     "chunks": len(chunks),
     "embeddings": len(embeddings),
-    "embedding_dimension": len(embeddings[0]) if embeddings else 0
+    "embedding_dimension": len(embeddings[0]) if embeddings else 0 #,
+    # "faiss_index" : index
     }), 200
 
 if __name__ == "__main__":
