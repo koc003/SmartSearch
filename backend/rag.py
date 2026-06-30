@@ -1,6 +1,6 @@
 from pypdf import PdfReader
 from google import genai
-from config import GEMINI_API_KEY
+from config import GEMINI_API_KEY, TOP_K
 
 import faiss
 import pickle
@@ -105,3 +105,41 @@ def build_faiss_index(embeddings, chunks):
             file
         )
     return index
+
+def retrieve_chunks(query):
+
+    response = client.models.embed_content(
+        model="gemini-embedding-001",
+        contents=query
+    )
+
+    query_embedding = np.array(
+        [response.embeddings[0].values],
+        dtype=np.float32
+    )
+
+    index = faiss.read_index(
+        FAISS_INDEX_PATH
+    )
+
+    with open(CHUNKS_PATH, "rb") as file:
+        chunks = pickle.load(file)
+
+    distances, indices = index.search(
+        query_embedding,
+        TOP_K
+    )
+
+    retrieved_chunks = []
+
+    for distance, idx in zip(distances[0], indices[0]):
+        
+        if idx == -1:
+            continue
+        
+        retrieved_chunks.append({
+            "chunk": chunks[idx],
+            "distance": float(distance)
+        })
+
+    return retrieved_chunks

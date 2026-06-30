@@ -9,7 +9,8 @@ from rag import (
     clean_text,
     chunk_text,
     get_embeddings,
-    build_faiss_index
+    build_faiss_index,
+    retrieve_chunks
 )
 
 from config import (
@@ -119,6 +120,31 @@ def upload_file():
     "embedding_dimension": len(embeddings[0]) if embeddings else 0 #,
     # "faiss_index" : index
     }), 200
+
+@app.route("/search", methods=["POST"])
+def search():
+
+    data = request.get_json()
+
+    if not data or "query" not in data:
+        return jsonify({
+            "error": "Query is required."
+        }), 400
+
+    query = data["query"]
+
+    try:
+        retrieved_chunks = retrieve_chunks(query)
+
+        return jsonify({
+            "query": query,
+            "retrieved_chunks": retrieved_chunks
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
