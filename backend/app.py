@@ -4,13 +4,22 @@ from werkzeug.utils import secure_filename
 import uuid
 import os
 
-from rag import (
+from services.pdf_processing import (
     extract_text_from_pdf,
     clean_text,
-    chunk_text,
-    get_embeddings,
-    build_faiss_index,
-    retrieve_chunks
+    chunk_text
+)
+
+from services.embedding import (
+    get_embeddings
+)
+
+from services.vectorstore import (
+    build_faiss_index
+)
+
+from services.rag import (
+    generate_answer
 )
 
 from config import (
@@ -134,11 +143,12 @@ def search():
     query = data["query"]
 
     try:
-        retrieved_chunks = retrieve_chunks(query)
+        result = generate_answer(query)
 
         return jsonify({
             "query": query,
-            "retrieved_chunks": retrieved_chunks
+            "answer": result["answer"],
+            "sources": result["sources"]
         }), 200
 
     except Exception as e:
