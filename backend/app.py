@@ -4,6 +4,13 @@ from werkzeug.utils import secure_filename
 import uuid
 import os
 
+from rag import (
+    extract_text_from_pdf,
+    clean_text,
+    chunk_text,
+    get_embeddings
+)
+
 from config import (
     ALLOWED_EXTENSIONS,
     GEMINI_API_KEY,
@@ -80,9 +87,29 @@ def upload_file():
 
     file.save(filepath)
 
+    # Extract text from PDF
+    text = extract_text_from_pdf(filepath)
+
+# Clean the extracted text
+    text = clean_text(text)
+
+# Split into chunks
+    chunks = chunk_text(text)
+
+# Generate embeddings
+    try:
+        embeddings = get_embeddings(chunks)
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
+
     return jsonify({
-        "message": "File uploaded successfully.",
-        "filename": filename
+    "message": "File processed successfully.",
+    "filename": filename,
+    "chunks": len(chunks),
+    "embeddings": len(embeddings),
+    "embedding_dimension": len(embeddings[0]) if embeddings else 0
     }), 200
 
 if __name__ == "__main__":
