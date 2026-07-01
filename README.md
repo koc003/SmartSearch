@@ -242,9 +242,9 @@ This project was built to explore production-oriented AI application development
 
 ## 👨‍💻 Author
 
-**Koc**
+**M P Sabarish**
 
-Computer Science Undergraduate  
+CSE'28 Undergraduate  
 Indian Institute of Technology (IIT) Mandi
 
 ---
