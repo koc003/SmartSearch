@@ -174,25 +174,29 @@ http://localhost:5173
 
 ### Home Page
 
-> Add screenshot here
+> <img width="1918" height="933" alt="Screenshot 2026-07-01 121744" src="https://github.com/user-attachments/assets/d0b0551f-4b3b-46e9-8a25-691ac2d8cccb" />
+
 
 ---
 
 ### Upload PDF
 
-> Add screenshot here
+> <img width="1906" height="935" alt="Screenshot 2026-07-01 121814" src="https://github.com/user-attachments/assets/93914108-048b-48a5-b8dd-432f3c26c856" />
+
 
 ---
 
 ### AI Answer
 
-> Add screenshot here
+> <img width="1116" height="833" alt="Screenshot 2026-07-01 121908" src="https://github.com/user-attachments/assets/1e379b2b-a34d-4bcf-999a-f27d9de836cc" />
+
 
 ---
 
 ### Retrieved Sources
 
-> Add screenshot here
+> <img width="1151" height="623" alt="Screenshot 2026-07-01 121921" src="https://github.com/user-attachments/assets/e9d08c4f-698e-42a0-98d9-ed88d9890fef" />
+
 
 ---
 
