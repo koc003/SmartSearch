@@ -1,0 +1,65 @@
+.upload-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.upload-card h2 {
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px dashed var(--primary);
+    border-radius: 8px;
+    background: #eef4ff;
+    color: var(--primary);
+    cursor: pointer;
+    transition: .25s;
+}
+
+.file-label:hover {
+    background: #dbeafe;
+}
+
+.file-name {
+    margin-top: 20px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.upload-actions {
+    margin-top: 20px;
+}
+
+.upload-btn {
+    padding: 12px 28px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.upload-btn:hover {
+    background: var(--primary-hover);
+}
+
+.upload-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.upload-message {
+    margin-top: 20px;
+    color: var(--success);
+}
